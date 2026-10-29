@@ -576,7 +576,21 @@ button:disabled {
 .consistency-input-section,
 .extracted-text-section,
 .qr-content-section,
-.qr-url-analysis-section {
+.qr-url-analysis-section,
+.url-input-section,
+.url-structure-section,
+.url-indicators-section,
+.url-assessment-section,
+.indicators-section,
+.ocr-notes-section,
+.benchmark-results-section,
+.comparison-table-section,
+.dataset-overview-section,
+.evaluation-metrics-section,
+.experimental-notes-section,
+.models-comparison-section,
+.indicators-explanation-section,
+.indicators-shift-section {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);

@@ -216,6 +216,20 @@
   .extracted-text-section,
   .qr-content-section,
   .qr-url-analysis-section,
+  .url-input-section,
+  .url-structure-section,
+  .url-indicators-section,
+  .url-assessment-section,
+  .indicators-section,
+  .ocr-notes-section,
+  .benchmark-results-section,
+  .comparison-table-section,
+  .dataset-overview-section,
+  .evaluation-metrics-section,
+  .experimental-notes-section,
+  .models-comparison-section,
+  .indicators-explanation-section,
+  .indicators-shift-section,
   .research-focus-section {
     padding: var(--space-4);
     border-radius: var(--radius-md);
