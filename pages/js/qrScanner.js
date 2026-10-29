@@ -87,6 +87,10 @@
       var qrCls2 = $("qr-risk-level"); if (qrCls2) qrCls2.className = "metric-value classification-badge status-" + r2.classification.toLowerCase();
       var qrCls2 = $("qr-risk-level"); if (qrCls2) qrCls2.className = "metric-value classification-badge status-" + r2.classification.toLowerCase(); window.__qr_lastResult = r2; }
     }
+    var M = global.MasrShield || {};
+    if (M.storage && typeof M.storage.save === "function" && window.__qr_lastResult) {
+      M.storage.save({ type: "qr", timestamp: Date.now(), input: data, score: window.__qr_lastResult.score, classification: window.__qr_lastResult.classification, indicators: (window.__qr_lastResult.indicators || []).map(function (i) { return i.name; }) });
+    }
     window.__qr_lastContent = data;
     window.__qr_lastType = type;
   }

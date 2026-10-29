@@ -61,6 +61,10 @@
     var copyBtn = $("copy-comparison-btn");
     if (copyBtn) copyBtn.disabled = false;
     window.__cg_last = { orig: lastOrig, rew: lastRew };
+    var M = global.MasrShield || {};
+    if (M.storage && typeof M.storage.save === "function") {
+      M.storage.save({ type: "consistency", timestamp: Date.now(), input: origText + " || " + rewText, score: r2.score, classification: (r1.classification === r2.classification ? "Consistent" : "Inconsistent"), indicators: [] });
+    }
   }
   function clear() {
     ["original-message","rewritten-message"].forEach(function (id){ var el=$(id); if(el) el.value=""; });

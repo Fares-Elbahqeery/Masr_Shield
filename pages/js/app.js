@@ -5,6 +5,43 @@
   var MasrShield = global.MasrShield || {};
   global.MasrShield = MasrShield;
 
+  MasrShield.storage = MasrShield.storage || {
+    KEY: "masrshield_analysis_history",
+    MAX: 50,
+    load: function () {
+      try {
+        var raw = global.localStorage ? global.localStorage.getItem(MasrShield.storage.KEY) : null;
+        if (!raw) return [];
+        var arr = JSON.parse(raw);
+        if (!Array.isArray(arr)) return [];
+        return arr;
+      } catch (e) {
+        console.error("[MasrShield] storage load error", e);
+        return [];
+      }
+    },
+    save: function (entry) {
+      try {
+        if (!global.localStorage) return false;
+        var arr = MasrShield.storage.load();
+        arr.unshift(entry);
+        if (arr.length > MasrShield.storage.MAX) arr = arr.slice(0, MasrShield.storage.MAX);
+        global.localStorage.setItem(MasrShield.storage.KEY, JSON.stringify(arr));
+        return true;
+      } catch (e) {
+        console.error("[MasrShield] storage save error", e);
+        return false;
+      }
+    },
+    clear: function () {
+      try { if (global.localStorage) global.localStorage.removeItem(MasrShield.storage.KEY); } catch (e) {}
+    }
+  };
+
+  function currentPage() {
+    var path = (global.location && global.location.pathname) || "";
+    var file = path.split("/").pop().split("\\").pop() || "index.html";
+
   MasrShield.utils = MasrShield.utils || {
     $: function (id) { return document.getElementById(id); },
     on: function (el, ev, fn) { if (el) el.addEventListener(ev, fn); },
@@ -13,9 +50,6 @@
     }
   };
 
-  function currentPage() {
-    var path = (global.location && global.location.pathname) || "";
-    var file = path.split("/").pop().split("\\").pop() || "index.html";
     if (!file || file === "") file = "index.html";
     // Vercel cleanUrls serve pages without extension; normalize to filename
     if (file.indexOf(".") === -1) file = file + ".html";

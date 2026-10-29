@@ -54,6 +54,10 @@
     if (!re) return;
     var result = re.analyzeUrl(url);
     renderResult(result, url);
+    var M = global.MasrShield || {};
+    if (M.storage && typeof M.storage.save === "function") {
+      M.storage.save({ type: "url", timestamp: Date.now(), input: url, score: result.score, classification: result.classification, indicators: result.indicators.map(function (i) { return i.name; }) });
+    }
   }
 
   function clear() {

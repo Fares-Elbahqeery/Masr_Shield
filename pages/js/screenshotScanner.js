@@ -83,6 +83,10 @@
     if (copyBtn) copyBtn.disabled = false;
     window.__ss_lastText = text;
     window.__ss_lastResult = result;
+    var M = global.MasrShield || {};
+    if (M.storage && typeof M.storage.save === "function") {
+      M.storage.save({ type: "screenshot", timestamp: Date.now(), input: text, score: result.score, classification: result.classification, indicators: result.indicators.map(function (i) { return i.name; }) });
+    }
   }
 
   function copyExtracted() {

@@ -102,6 +102,34 @@
     var cb = CB(); if (cb) cb.copy(report, $("copy-research-btn"));
   }
 
+  function loadHistory() {
+    var M = global.MasrShield || {};
+    var ST = M.storage;
+    var entries = ST && typeof ST.load === "function" ? ST.load() : [];
+    var total = entries.length;
+    var msgs = entries.filter(function (e) { return e && e.type === "message"; }).length;
+    var urls = entries.filter(function (e) { return e && e.type === "url"; }).length;
+    setText("history-total", total);
+    setText("history-messages", msgs);
+    setText("history-urls", urls);
+    var list = $("history-list");
+    if (list) {
+      list.innerHTML = "";
+      if (!entries.length) {
+        var li = document.createElement("li");
+        li.textContent = "No analyses recorded yet.";
+        list.appendChild(li);
+      } else {
+        entries.slice(0, 10).forEach(function (e) {
+          var li = document.createElement("li");
+          var when = e.timestamp ? new Date(e.timestamp).toLocaleString() : "";
+          li.textContent = (e.type === "message" ? "Message" : "URL") + " — " + (e.classification || "—") + " (" + (e.score != null ? e.score : "—") + "/100) — " + when;
+          list.appendChild(li);
+        });
+      }
+    }
+  }
+
   function init() {
     if (!$("run-benchmark-btn") && !$("metric-accuracy")) return;
     var runBtn = $("run-benchmark-btn");
@@ -110,8 +138,15 @@
     if (runBtn) runBtn.addEventListener("click", runBenchmark);
     if (resetBtn) resetBtn.addEventListener("click", reset);
     if (copyBtn) copyBtn.addEventListener("click", copyReport);
+    var clearHistBtn = $("clear-history-btn");
+    if (clearHistBtn) clearHistBtn.addEventListener("click", function () {
+      var M = global.MasrShield || {};
+      if (M.storage && typeof M.storage.clear === "function") M.storage.clear();
+      loadHistory();
+    });
     // initial not available
     reset();
+    loadHistory();
   }
 
   global.ResearchDashboard = { init: init, runBenchmark: runBenchmark, reset: reset };

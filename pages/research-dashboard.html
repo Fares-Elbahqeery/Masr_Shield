@@ -50,6 +50,34 @@
         </p>
       </div>
 
+<!-- Local Analysis History (derived from browser storage) -->
+      <section class="results-section" aria-labelledby="history-heading">
+        <h2 id="history-heading" class="section-title">Local Analysis History</h2>
+        <p class="section-note">
+          Counts and recent entries are derived from analyses performed in this browser. Data is stored locally and is not synchronized across devices.
+        </p>
+        <div class="evaluation-summary-grid">
+          <article class="metric-card">
+            <h3 class="metric-label">Total Analyses</h3>
+            <p class="metric-value" id="history-total">0</p>
+          </article>
+          <article class="metric-card">
+            <h3 class="metric-label">Message Scans</h3>
+            <p class="metric-value" id="history-messages">0</p>
+          </article>
+          <article class="metric-card">
+            <h3 class="metric-label">URL Scans</h3>
+            <p class="metric-value" id="history-urls">0</p>
+          </article>
+        </div>
+        <ul class="indicators-list" id="history-list">
+          <li>No analyses recorded yet.</li>
+        </ul>
+        <div class="form-actions">
+          <button type="button" id="clear-history-btn" class="btn btn-secondary">Clear Local History</button>
+        </div>
+      </section>
+
       <!-- Dataset Overview Section -->
       <section class="dataset-overview-section" aria-labelledby="dataset-heading">
         <h2 id="dataset-heading" class="section-title">Dataset Overview</h2>

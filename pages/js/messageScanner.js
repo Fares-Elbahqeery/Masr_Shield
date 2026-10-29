@@ -65,6 +65,10 @@
     if (!re) { if (err) { err.style.display="block"; err.textContent = "Risk engine unavailable."; } return; }
     var result = re.analyzeMessage(text);
     renderResult(result, text);
+    var M = global.MasrShield || {};
+    if (M.storage && typeof M.storage.save === "function") {
+      M.storage.save({ type: "message", timestamp: Date.now(), input: text, score: result.score, classification: result.classification, indicators: result.indicators.map(function (i) { return i.name; }) });
+    }
   }
 
   function clear() {
