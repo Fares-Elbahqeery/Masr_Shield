@@ -43,7 +43,7 @@
   var INDICATORS = [
     { id: "urgency", name: "Artificial Urgency & Panic Inducement", weight: 24,
       patterns: [/\b(urgent|immediately|asap|warning|alert|notice|attention|within \d+ (hours?|minutes?|days?)|expire|suspended?|blocked?|frozen?|locked?|verify|login)\b/i,
-                 /(فوري|فوراً|خلال \d+ (ساعة|ساعات|دقيقة|دقائق|يوم|أيام)|انتهاء|موقوف|محظور|مجمد|إيقاف|تجميد|تعليق|إغلاق|مشبوه|بسرعة|خلال)/] },
+                 /(فوري|فوراً|خلال \d+ (ساعة|ساعات|دقيقة|دقائق|يوم|أيام)|انتهاء|موقوف|محظور|مجمد|إيقاف|تجميد|تعليق|إغلاق|حظر|مشبوه|بسرعة|خلال)/] },
     { id: "credential", name: "Credential Harvesting Request", weight: 22,
       patterns: [/\b(password|passcode|otp|pin code|verification code|login credentials?|verify|login|identity|confirm)\b/i,
                  /(كلمة المرور|رمز التحقق|رمز الأمان|الرقم السري|PIN|بياناتك|تحديث البيانات|تأكيد الحساب)/i] },

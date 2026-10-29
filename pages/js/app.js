@@ -17,6 +17,8 @@
     var path = (global.location && global.location.pathname) || "";
     var file = path.split("/").pop().split("\\").pop() || "index.html";
     if (!file || file === "") file = "index.html";
+    // Vercel cleanUrls serve pages without extension; normalize to filename
+    if (file.indexOf(".") === -1) file = file + ".html";
     var map = {
       "index.html": "home",
       "message-scanner.html": "message-scanner",

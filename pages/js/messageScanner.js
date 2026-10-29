@@ -21,7 +21,12 @@
     }
     if (empty) empty.style.display = "none";
     if (summaryBox) summaryBox.style.display = "block";
-    if (summaryText) summaryText.textContent = result.explanation;
+    var recommendation = "";
+    if (result.classification === "High") recommendation = "Recommendation: Do not reply, do not click links, and do not share credentials. Verify through an official channel.";
+    else if (result.classification === "Medium") recommendation = "Recommendation: Treat with caution. Verify the sender and avoid sharing sensitive information.";
+    else if (result.classification === "Low" && result.indicators.length > 0) recommendation = "Recommendation: A few weak signals were found. Stay cautious and verify independently.";
+    else recommendation = "Recommendation: No strong warning signs detected, but always verify unexpected requests.";
+    if (summaryText) summaryText.textContent = result.explanation + (recommendation ? " " + recommendation : "");
     if (list) {
       list.innerHTML = "";
       if (result.indicators.length === 0) {
