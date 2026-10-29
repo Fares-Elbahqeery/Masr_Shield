@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenshot Scanner — MasrShield Research Platform</title>
+  <meta name="description" content="Upload screenshots of suspicious Arabic messages or social media posts for optical character recognition (OCR) and text-based scam risk analysis.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header and Primary Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="site-logo">MasrShield</a>
+      <nav class="main-navigation" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="message-scanner.html" class="nav-link">Message Scanner</a></li>
+          <li class="nav-item"><a href="url-analyzer.html" class="nav-link">URL Analyzer</a></li>
+          <li class="nav-item"><a href="screenshot-scanner.html" class="nav-link active" aria-current="page">Screenshot Scanner</a></li>
+          <li class="nav-item"><a href="qr-scanner.html" class="nav-link">QR Scanner</a></li>
+          <li class="nav-item"><a href="consistency-guard.html" class="nav-link">ConsistencyGuard</a></li>
+          <li class="nav-item"><a href="research-dashboard.html" class="nav-link">Research Dashboard</a></li>
+        </ul>
+      </nav></div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main class="site-main" id="main-content">
+    <div class="page-container">
+      <!-- Page Header & Explanation -->
+      <header class="page-header">
+        <h1 class="page-title">Screenshot &amp; Image Scanner</h1>
+        <p class="page-intro">
+          Many deceptive communications arrive as images—such as WhatsApp conversation screenshots, fabricated banking receipts, or sponsored social media advertisements. This module provides a pipeline to intake image files, prepare them for Optical Character Recognition (OCR), and inspect the extracted Arabic text for phishing indicators.
+        </p>
+      </header>
+
+      <!-- OCR Implementation Notice -->
+      <aside class="prototype-notice" role="note" aria-label="Pipeline Implementation Notice">
+        <p class="notice-text">
+          <strong>Pipeline Status Notice:</strong> OCR runs in the browser using Tesseract.js when available. If the library cannot be loaded, OCR is currently unavailable and no text is fabricated.
+        </p>
+      </aside>
+
+      <!-- Image Upload Section -->
+      <section class="upload-section" aria-labelledby="upload-heading">
+        <h2 id="upload-heading" class="section-title">Upload Screenshot</h2>
+
+        <form id="screenshot-upload-form" class="scanner-form">
+          <div class="form-group">
+            <label for="screenshot-file" class="form-label">Select Screenshot File</label>
+            <input 
+              type="file" 
+              id="screenshot-file" 
+              name="screenshotFile" 
+              class="form-file-input" 
+              accept="image/png, image/jpeg, image/webp"
+              aria-describedby="file-requirements">
+            <p id="file-requirements" class="form-help-text">
+              Supported file formats: <strong>PNG (.png)</strong>, <strong>JPEG (.jpg, .jpeg)</strong>, and <strong>WebP (.webp)</strong>. Maximum recommended file size: 5 MB.
+            </p>
+          </div>
+
+          <!-- Image Preview Area -->
+          <div class="preview-container" aria-labelledby="preview-heading">
+            <h3 id="preview-heading" class="subsection-title">Image Preview</h3>
+            <div class="image-preview-box" id="screenshot-preview">
+              <p class="empty-state-text">No image uploaded. Select an image file to display a local preview here.</p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="extract-text-btn" class="btn btn-primary">Extract Text</button>
+            <button type="reset" id="clear-screenshot-btn" class="btn btn-secondary">Clear Image</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Extracted Text Section -->
+      <section class="extracted-text-section" aria-labelledby="extracted-heading">
+        <header class="section-subhead">
+          <h2 id="extracted-heading" class="section-title">Extracted Text (OCR)</h2>
+          <div class="extracted-actions">
+            <button type="button" id="copy-extracted-btn" class="btn btn-outline" disabled>Copy Extracted Text</button>
+          </div>
+        </header>
+
+        <div class="form-group">
+          <label for="extracted-text-area" class="form-label">OCR Output Text</label>
+          <textarea 
+            id="extracted-text-area" 
+            name="extractedText" 
+            class="form-textarea" 
+            rows="6" 
+            cols="60" 
+            placeholder="Extracted Arabic text will be populated here once OCR processing is implemented in the JavaScript layer..."
+            aria-describedby="ocr-status-note"></textarea>
+          <p id="ocr-status-note" class="form-help-text">
+            Text extraction relies on an upcoming OCR module. You will be able to manually review or edit the recognized text before running risk analysis.
+          </p>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="analyze-extracted-btn" class="btn btn-primary">Analyze Extracted Text</button>
+        </div>
+      </section>
+
+      <!-- Analysis Report Section (Initially Empty State) -->
+      <section class="results-section" id="screenshot-results" aria-labelledby="results-heading" aria-live="polite">
+        <header class="results-header">
+          <h2 id="results-heading" class="section-title">Screenshot Analysis Report</h2>
+          <div class="report-actions">
+            <button type="button" id="copy-screenshot-report-btn" class="btn btn-outline" disabled>Copy Analysis Report</button>
+          </div>
+        </header>
+
+        <!-- Initial Empty State Placeholder -->
+        <div class="empty-state-card" id="screenshot-empty-state">
+          <p class="empty-state-title">Awaiting Text Extraction &amp; Analysis</p>
+          <p class="empty-state-description">
+            No image has been processed yet. Upload a screenshot, extract the embedded text, and trigger analysis to review detected indicators.
+          </p>
+        </div>
+
+        <!-- Metric Placeholders -->
+        <div class="evaluation-summary-grid">
+          <article class="metric-card">
+            <h3 class="metric-label">OCR Recognition Confidence</h3>
+            <p class="metric-value" id="ocr-confidence-score">— / 100%</p>
+            <p class="metric-status">Status: No image processed</p>
+          </article>
+
+          <article class="metric-card">
+            <h3 class="metric-label">Scam Risk Assessment</h3>
+            <p class="metric-value classification-badge" id="screenshot-risk-classification">Awaiting Input</p>
+            <p class="metric-note">Evaluates extracted linguistic markers</p>
+          </article>
+          <article class="metric-card">
+            <h3 class="metric-label">Risk Score</h3>
+            <p class="metric-value" id="screenshot-risk-score">— / 100</p>
+            <p class="metric-note">Strength of indicators detected</p>
+          </article>
+        </div>
+
+        <!-- Detected Visual & Textual Indicators -->
+        <section class="indicators-section" aria-labelledby="image-indicators-heading">
+          <h3 id="image-indicators-heading" class="subsection-title">Detected Risk Indicators</h3>
+          <div class="indicators-container" id="screenshot-indicators-container">
+            <p class="empty-state-text">No risk indicators identified yet. Please process an image above.</p>
+            <ul class="indicators-list" id="screenshot-indicators-list">
+              <!-- Dynamically populated in future stages -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Technical Considerations for Arabic OCR -->
+        <section class="ocr-notes-section" aria-labelledby="ocr-notes-heading">
+          <h3 id="ocr-notes-heading" class="subsection-title">Technical Considerations for Arabic OCR</h3>
+          <ul class="ocr-notes-list">
+            <li>
+              <strong>Cursive Script Continuity:</strong> Arabic characters change shape based on their position (isolated, initial, medial, final), which requires character-level segmentation models to avoid ligature misrecognition.
+            </li>
+            <li>
+              <strong>Diacritics &amp; Dot Placement:</strong> Misplaced or blurred dots (I'jam) can transform innocent words into entirely different vocabulary, introducing noise into subsequent scam classification.
+            </li>
+            <li>
+              <strong>Low-Resolution Compression:</strong> Social messaging apps (WhatsApp, Telegram) aggressively compress screenshots, degrading image quality and lowering OCR confidence.
+            </li>
+          </ul>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <p class="footer-logo">MasrShield</p>
+        <p class="footer-tagline">
+          An Arabic scam, phishing, and dialectal consistency detection research platform.
+        </p>
+      </div>
+
+      <nav class="footer-navigation" aria-label="Footer Navigation">
+        <h3 class="footer-heading">Platform Navigation</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="message-scanner.html" class="footer-link">Message Scanner</a></li>
+          <li><a href="url-analyzer.html" class="footer-link">URL Analyzer</a></li>
+          <li><a href="screenshot-scanner.html" class="footer-link">Screenshot Scanner</a></li>
+          <li><a href="qr-scanner.html" class="footer-link">QR Scanner</a></li>
+          <li><a href="consistency-guard.html" class="footer-link">ConsistencyGuard</a></li>
+          <li><a href="research-dashboard.html" class="footer-link">Research Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-meta">
+        <p class="disclaimer-text">
+          MasrShield Research Prototype. OCR engine not yet active. Uploaded images are processed strictly on client or local prototype sessions.
+        </p>
+        <p class="copyright-text">
+          &copy; MasrShield Research Project.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- Optical Character Recognition & Analysis Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+  <script src="js/riskEngine.js" defer></script>
+  <script src="js/clipboard.js" defer></script>
+  <script src="js/screenshotScanner.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
+

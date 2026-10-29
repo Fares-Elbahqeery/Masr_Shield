@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConsistencyGuard — MasrShield Research Platform</title>
+  <meta name="description" content="Evaluate whether scam detection algorithms maintain consistent classification when Arabic messages are rewritten with dialectal variations and paraphrases.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header and Primary Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="site-logo">MasrShield</a>
+      <nav class="main-navigation" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="message-scanner.html" class="nav-link">Message Scanner</a></li>
+          <li class="nav-item"><a href="url-analyzer.html" class="nav-link">URL Analyzer</a></li>
+          <li class="nav-item"><a href="screenshot-scanner.html" class="nav-link">Screenshot Scanner</a></li>
+          <li class="nav-item"><a href="qr-scanner.html" class="nav-link">QR Scanner</a></li>
+          <li class="nav-item"><a href="consistency-guard.html" class="nav-link active" aria-current="page">ConsistencyGuard</a></li>
+          <li class="nav-item"><a href="research-dashboard.html" class="nav-link">Research Dashboard</a></li>
+        </ul>
+      </nav></div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main class="site-main" id="main-content">
+    <div class="page-container">
+      <!-- Page Header & Research Objective -->
+      <header class="page-header">
+        <h1 class="page-title">ConsistencyGuard: Dialectal Robustness Sandbox</h1>
+        <p class="page-intro">
+          ConsistencyGuard is a dedicated research environment that measures whether scam detection decisions remain consistent when an Arabic message undergoes meaning-preserving rewrites. Attackers routinely evade automated defenses simply by translating from Modern Standard Arabic (MSA) into Egyptian colloquial phrasing, introducing spelling variations, or using adversarial paraphrasing.
+        </p>
+      </header>
+
+      <!-- Dual Message Input Section -->
+      <section class="consistency-input-section" aria-labelledby="comparison-input-heading">
+        <h2 id="comparison-input-heading" class="section-title">Message Pair Submission</h2>
+
+        <form id="consistency-form" class="scanner-form">
+          <div class="dual-inputs-grid">
+            <!-- Original Message Input -->
+            <div class="form-group">
+              <label for="original-message" class="form-label">1. Original Arabic Message</label>
+              <textarea 
+                id="original-message" 
+                name="originalMessage" 
+                class="form-textarea" 
+                rows="6" 
+                cols="40" 
+                placeholder="Enter original message text (e.g., تم تجميد حسابك البنكي مؤقتاً لعدم تحديث البيانات، يرجى مراجعة الفرع أو الرابط التالي...)"
+                aria-describedby="original-note"></textarea>
+              <p id="original-note" class="form-help-text">
+                Usually the canonical or standard phrasing (e.g., Modern Standard Arabic or official notice style).
+              </p>
+            </div>
+
+            <!-- Rewritten Message Input -->
+            <div class="form-group">
+              <label for="rewritten-message" class="form-label">2. Rewritten Version (Meaning-Preserved)</label>
+              <textarea 
+                id="rewritten-message" 
+                name="rewrittenMessage" 
+                class="form-textarea" 
+                rows="6" 
+                cols="40" 
+                placeholder="Enter dialectal or paraphrased variant (e.g., حسابك في البنك اتوقف عشان مفيش تحديث، ادخل على اللينك ده وحدث بياناتك بسرعة...)"
+                aria-describedby="rewrite-note"></textarea>
+              <p id="rewrite-note" class="form-help-text">
+                Colloquial Egyptian, dialectal variant, phonetic spelling, or synonymous rewrite that preserves the core scam intent.
+              </p>
+            </div>
+          </div>
+
+          <!-- Metadata & Transformation Options -->
+          <fieldset class="metadata-fieldset">
+            <legend class="fieldset-legend">Rewriting Metadata &amp; Transformation Characteristics (Optional)</legend>
+            <div class="metadata-grid">
+              <div class="form-group">
+                <label for="source-dialect" class="form-label">Original Language / Dialect</label>
+                <select id="source-dialect" name="sourceDialect" class="form-select">
+                  <option value="msa" selected>Modern Standard Arabic (فصحى)</option>
+                  <option value="egyptian">Egyptian Arabic (عامية مصرية)</option>
+                  <option value="gulf">Gulf Arabic (خليجي)</option>
+                  <option value="levantine">Levantine Arabic (شامي)</option>
+                  <option value="maghrebi">North African / Maghrebi (مغاربي)</option>
+                  <option value="other">Other / Mixed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="target-dialect" class="form-label">Target Variant / Dialect</label>
+                <select id="target-dialect" name="targetDialect" class="form-select">
+                  <option value="egyptian" selected>Egyptian Arabic (عامية مصرية)</option>
+                  <option value="msa">Modern Standard Arabic (فصحى)</option>
+                  <option value="gulf">Gulf Arabic (خليجي)</option>
+                  <option value="levantine">Levantine Arabic (شامي)</option>
+                  <option value="maghrebi">North African / Maghrebi (مغاربي)</option>
+                  <option value="other">Other / Mixed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="transformation-type" class="form-label">Primary Transformation Method</label>
+                <select id="transformation-type" name="transformationType" class="form-select">
+                  <option value="dialectal-shift" selected>Colloquial Dialectal Shift</option>
+                  <option value="orthographic-shift">Orthographic / Spelling Variation (Hamza / Taa Marbuta)</option>
+                  <option value="synonym-substitution">Adversarial Synonym Substitution</option>
+                  <option value="phonetic-slang">Phonetic Spelling &amp; Slang Injections</option>
+                  <option value="llm-paraphrase">Machine-Generated / LLM Paraphrase</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="semantic-verification-note" class="form-label">Semantic Equivalence Note</label>
+                <input 
+                  type="text" 
+                  id="semantic-verification-note" 
+                  name="semanticNote" 
+                  class="form-input" 
+                  placeholder="e.g., Both messages demand urgent credential updates under bank suspension threat.">
+              </div>
+            </div>
+          </fieldset>
+
+          <div id="consistency-error-message" class="form-error-message" style="display:none;" role="alert"></div>
+            <div class="form-actions">
+            <button type="button" id="analyze-both-btn" class="btn btn-primary">Analyze Both Messages</button>
+            <button type="reset" id="clear-consistency-btn" class="btn btn-secondary">Clear Inputs</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Comparison Results Section (Initially Empty State) -->
+      <section class="results-section" id="comparison-results" aria-labelledby="comparison-heading" aria-live="polite">
+        <header class="results-header">
+          <h2 id="comparison-heading" class="section-title">Comparative Consistency Assessment</h2>
+          <div class="report-actions">
+            <button type="button" id="copy-comparison-btn" class="btn btn-outline" disabled>Copy Comparison Report</button>
+          </div>
+        </header>
+
+        <!-- Initial Empty State Placeholder -->
+        <div class="empty-state-card" id="consistency-empty-state">
+          <p class="empty-state-title">Awaiting Dual Message Evaluation</p>
+          <p class="empty-state-description">
+            Submit both the original and rewritten message above and select "Analyze Both Messages" to evaluate classification stability across variants.
+          </p>
+        </div>
+
+        <!-- Separate Profile Placeholders for Original and Rewritten Messages -->
+        <div class="dual-profiles-grid">
+          <!-- Profile A: Original Message -->
+          <article class="profile-card" id="original-profile">
+            <h3 class="profile-title">Original Message Profile</h3>
+            <p class="profile-meta"><strong>Dialect:</strong> <span id="summary-original-dialect">Not selected</span></p>
+            <p class="profile-meta"><strong>Risk Score:</strong> <span id="summary-original-score">— / 100</span></p>
+            <p class="profile-meta"><strong>Classification:</strong> <span class="classification-badge" id="summary-original-class">Uncertain</span></p>
+            <div class="profile-indicators">
+              <h4 class="profile-subtitle">Triggered Indicators</h4>
+              <p class="empty-state-text">No indicators evaluated yet.</p>
+            </div>
+          </article>
+
+          <!-- Profile B: Rewritten Message -->
+          <article class="profile-card" id="rewritten-profile">
+            <h3 class="profile-title">Rewritten Message Profile</h3>
+            <p class="profile-meta"><strong>Dialect:</strong> <span id="summary-rewritten-dialect">Not selected</span></p>
+            <p class="profile-meta"><strong>Risk Score:</strong> <span id="summary-rewritten-score">— / 100</span></p>
+            <p class="profile-meta"><strong>Classification:</strong> <span class="classification-badge" id="summary-rewritten-class">Uncertain</span></p>
+            <div class="profile-indicators">
+              <h4 class="profile-subtitle">Triggered Indicators</h4>
+              <p class="empty-state-text">No indicators evaluated yet.</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Consistency Verdict Placeholder -->
+        <div class="consistency-status-card" id="consistency-status-box">
+          <h3 class="status-title">Detection Consistency Verdict</h3>
+          <p class="status-value" id="consistency-verdict">Status: Not Evaluated</p>
+        <p class="status-meta"><strong>Score Similarity:</strong> <span id="score-similarity-value">—</span> / 100</p>
+          <p class="status-description" id="consistency-verdict-desc">
+            Awaiting comparative submission. A robust classifier produces an invariant verdict regardless of surface-level phrasing changes when semantic intent is preserved.
+          </p>
+        </div>
+
+        <!-- Comparison Metrics Table -->
+        <section class="comparison-table-section" aria-labelledby="table-heading">
+          <h3 id="table-heading" class="subsection-title">Side-by-Side Indicator Comparison</h3>
+          
+          <table class="data-table" id="consistency-comparison-table">
+            <caption class="sr-only">Side-by-side indicator comparison between original and rewritten messages</caption>
+            <thead>
+              <tr>
+                <th scope="col">Metric / Indicator</th>
+                <th scope="col">Original Message</th>
+                <th scope="col">Rewritten Message</th>
+                <th scope="col">Difference</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Overall Risk Score</th>
+                <td class="placeholder-cell" id="comp-score-orig">—</td>
+                <td class="placeholder-cell" id="comp-score-rew">—</td>
+                <td class="placeholder-cell" id="comp-score-diff">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Classification Verdict</th>
+                <td class="placeholder-cell" id="comp-class-orig">—</td>
+                <td class="placeholder-cell" id="comp-class-rew">—</td>
+                <td class="placeholder-cell" id="comp-class-diff">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Urgency / Panic Cues</th>
+                <td class="placeholder-cell" id="comp-urgency-orig">—</td>
+                <td class="placeholder-cell" id="comp-urgency-rew">—</td>
+                <td class="placeholder-cell" id="comp-urgency-diff">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Entity / Brand Impersonation</th>
+                <td class="placeholder-cell" id="comp-impersonation-orig">—</td>
+                <td class="placeholder-cell" id="comp-impersonation-rew">—</td>
+                <td class="placeholder-cell" id="comp-impersonation-diff">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Financial Windfall Demands</th>
+                <td class="placeholder-cell" id="comp-financial-orig">—</td>
+                <td class="placeholder-cell" id="comp-financial-rew">—</td>
+                <td class="placeholder-cell" id="comp-financial-diff">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Call-to-Action Link Indicators</th>
+                <td class="placeholder-cell" id="comp-cta-orig">—</td>
+                <td class="placeholder-cell" id="comp-cta-rew">—</td>
+                <td class="placeholder-cell" id="comp-cta-diff">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Explaining Changes in Detected Indicators -->
+        <section class="indicators-shift-section" aria-labelledby="shift-heading">
+          <h3 id="shift-heading" class="subsection-title">Why Do Detection Discrepancies Occur?</h3>
+          <div class="shift-reasons-grid">
+            <article class="shift-card">
+              <h4 class="shift-title">1. Tokenization &amp; Morphology Fragmentation</h4>
+              <p class="shift-text">
+                Subword tokenizers trained predominantly on formal Arabic split colloquial prefixes (e.g., Egyptian progressive "بـ", future "حـ", negating "مش") into fragmented tokens, disrupting keyword embeddings.
+              </p>
+            </article>
+            <article class="shift-card">
+              <h4 class="shift-title">2. Orthographic Invariance Failure</h4>
+              <p class="shift-text">
+                Omitting hamzas (e.g., "انشاء" vs "إنشاء", "ايداع" vs "إيداع") or swapping taa marbuta with haa often causes static keyword lists and regex detectors to miss obvious threat signals.
+              </p>
+            </article>
+            <article class="shift-card">
+              <h4 class="shift-title">3. Colloquial Idiom Blindspots</h4>
+              <p class="shift-text">
+                Phishing triggers in Egyptian slang (such as "الفرصة متفوتهاش" or "الفلوس مستنياك") lack 1-to-1 keyword overlap with standard MSA training dictionaries, leading to false negatives.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Research Methodology Note -->
+        <aside class="research-note-box">
+          <h3 class="note-title">Research Methodology &amp; Meaning Verification</h3>
+          <p class="note-text">
+            <strong>Preservation Verification Required:</strong> For experimental validity, meaning preservation between original and rewritten pairs must be confirmed through human expert annotation or validated semantic textual similarity (STS) thresholds. Consistency rate calculations in research benchmarks measure the percentage of semantically equivalent pairs where the classifier makes identical predictions.
+          </p>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <p class="footer-logo">MasrShield</p>
+        <p class="footer-tagline">
+          An Arabic scam, phishing, and dialectal consistency detection research platform.
+        </p>
+      </div>
+
+      <nav class="footer-navigation" aria-label="Footer Navigation">
+        <h3 class="footer-heading">Platform Navigation</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="message-scanner.html" class="footer-link">Message Scanner</a></li>
+          <li><a href="url-analyzer.html" class="footer-link">URL Analyzer</a></li>
+          <li><a href="screenshot-scanner.html" class="footer-link">Screenshot Scanner</a></li>
+          <li><a href="qr-scanner.html" class="footer-link">QR Scanner</a></li>
+          <li><a href="consistency-guard.html" class="footer-link">ConsistencyGuard</a></li>
+          <li><a href="research-dashboard.html" class="footer-link">Research Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-meta">
+        <p class="disclaimer-text">
+          MasrShield Research Prototype. ConsistencyGuard research sandbox. Experimental results require empirical verification.
+        </p>
+        <p class="copyright-text">
+          &copy; MasrShield Research Project.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- ConsistencyGuard Scripts -->
+  <script src="js/clipboard.js" defer></script>
+  <script src="js/riskEngine.js" defer></script>
+  <script src="js/consistencyGuard.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
+

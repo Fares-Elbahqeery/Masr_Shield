@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message Scanner — MasrShield Research Platform</title>
+    <meta
+      name="description"
+      content="Analyze arbitrary Arabic SMS, social media messages, and phishing attempts for linguistic risk indicators and social engineering tactics."
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <!-- Header and Primary Navigation -->
+    <header class="site-header">
+      <div class="header-container">
+        <a href="index.html" class="site-logo">MasrShield</a>
+        <nav class="main-navigation" aria-label="Main Navigation">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="message-scanner.html"
+                class="nav-link active"
+                aria-current="page"
+                >Message Scanner</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="url-analyzer.html" class="nav-link">URL Analyzer</a>
+            </li>
+            <li class="nav-item">
+              <a href="screenshot-scanner.html" class="nav-link"
+                >Screenshot Scanner</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="qr-scanner.html" class="nav-link">QR Scanner</a>
+            </li>
+            <li class="nav-item">
+              <a href="consistency-guard.html" class="nav-link"
+                >ConsistencyGuard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="research-dashboard.html" class="nav-link"
+                >Research Dashboard</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Landmark -->
+    <main class="site-main" id="main-content">
+      <div class="page-container">
+        <!-- Page Header & Introduction -->
+        <header class="page-header">
+          <h1 class="page-title">Arabic Message Scanner</h1>
+          <p class="page-intro">
+            Inspect any suspicious text message, chat communication, or social
+            media post for indicators of fraud, psychological pressure, and
+            credential theft. The scanner is designed to process arbitrary
+            Arabic input across standard and colloquial dialects.
+          </p>
+        </header>
+
+        <!-- Message Input Form Section -->
+        <section class="scanner-input-section" aria-labelledby="input-heading">
+          <h2 id="input-heading" class="section-title">Message Submission</h2>
+
+          <form id="message-scanner-form" class="scanner-form">
+            <div class="form-group">
+              <label for="message-input" class="form-label"
+                >Suspicious Message Text</label
+              >
+              <textarea
+                id="message-input"
+                name="messageText"
+                class="form-textarea"
+                rows="7"
+                cols="60"
+                placeholder="Paste or type any suspicious message here (e.g., تم حظر بطاقتك البنكية، يرجى الضغط على الرابط لتحديث البيانات...)"
+                aria-describedby="input-guidelines"
+              ></textarea>
+              <p id="input-guidelines" class="form-help-text">
+                <strong>Notice:</strong> Please use fictional, simulated, or
+                anonymized examples. Do not enter real bank details, one-time
+                passwords (OTPs), national IDs, or sensitive personal data.
+              </p>
+              <div
+                id="input-error-message"
+                class="form-error-message"
+                style="display: none"
+                role="alert"
+              ></div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                id="analyze-message-btn"
+                class="btn btn-primary"
+              >
+                Analyze Message
+              </button>
+              <button
+                type="reset"
+                id="clear-message-btn"
+                class="btn btn-secondary"
+              >
+                Clear Input
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Analysis Results Section (Initially Empty State) -->
+        <section
+          class="results-section"
+          id="message-analysis-results"
+          aria-labelledby="results-heading"
+          aria-live="polite"
+        >
+          <header class="results-header">
+            <h2 id="results-heading" class="section-title">
+              Analysis Assessment
+            </h2>
+            <div class="report-actions">
+              <button
+                type="button"
+                id="copy-message-btn"
+                class="btn btn-outline"
+                disabled
+              >
+                Copy Message
+              </button>
+              <button
+                type="button"
+                id="copy-report-btn"
+                class="btn btn-outline"
+                disabled
+              >
+                Copy Analysis Report
+              </button>
+            </div>
+          </header>
+
+          <!-- Initial Empty State Placeholder -->
+          <div class="empty-state-card" id="message-empty-state">
+            <p class="empty-state-title">Awaiting Message Submission</p>
+            <p class="empty-state-description">
+              No message has been evaluated yet. Enter text into the box above
+              and select "Analyze Message" to generate an indicator assessment.
+            </p>
+          </div>
+
+          <!-- Evaluation Summary Placeholders -->
+          <div class="evaluation-summary-grid">
+            <article class="metric-card" id="risk-score-display">
+              <h3 class="metric-label">Risk Score</h3>
+              <p class="metric-value" id="risk-score-value">— / 100</p>
+              <p class="metric-status">Status: Pending submission</p>
+            </article>
+
+            <article class="metric-card" id="risk-classification-display">
+              <h3 class="metric-label">Risk Classification</h3>
+              <p
+                class="metric-value classification-badge"
+                id="risk-classification-value"
+              >
+                Uncertain
+              </p>
+              <p class="metric-note">
+                Options: Low &bull; Medium &bull; High &bull; Uncertain
+              </p>
+            </article>
+          </div>
+          <p class="form-help-text">
+            This score represents the strength of indicators detected by the
+            current rule set. It is not a probability of fraud.
+          </p>
+
+          <!-- Dynamic Assessment Summary (Populated via JavaScript) -->
+          <div
+            class="assessment-summary-container"
+            id="assessment-summary-container"
+            style="display: none; margin-bottom: var(--space-6)"
+          >
+            <div class="research-note-box" id="assessment-explanation-box">
+              <h3 class="note-title" id="assessment-explanation-title">
+                Assessment Summary
+              </h3>
+              <p class="note-text" id="assessment-explanation-text"></p>
+            </div>
+          </div>
+
+          <!-- Detected Risk Indicators Section -->
+          <section
+            class="indicators-section"
+            aria-labelledby="indicators-heading"
+          >
+            <h3 id="indicators-heading" class="subsection-title">
+              Detected Risk Indicators
+            </h3>
+            <div
+              class="indicators-container"
+              id="detected-indicators-container"
+            >
+              <p class="empty-state-text">
+                No indicators detected yet. Awaiting text input.
+              </p>
+              <ul class="indicators-list" id="detected-indicators-list">
+                <!-- Dynamically populated via future JavaScript implementation -->
+              </ul>
+            </div>
+          </section>
+
+          <!-- Why Each Indicator Matters Section -->
+          <section
+            class="indicators-explanation-section"
+            aria-labelledby="explanation-heading"
+          >
+            <h3 id="explanation-heading" class="subsection-title">
+              Understanding Risk Indicators
+            </h3>
+            <dl class="indicators-glossary">
+              <div class="glossary-item">
+                <dt class="indicator-name">
+                  Artificial Urgency &amp; Panic Inducement
+                </dt>
+                <dd class="indicator-description">
+                  Scammers frequently demand immediate action (e.g., "Account
+                  suspended within 2 hours") to bypass rational scrutiny and
+                  trigger impulsive compliance.
+                </dd>
+              </div>
+              <div class="glossary-item">
+                <dt class="indicator-name">
+                  Authority &amp; Institutional Impersonation
+                </dt>
+                <dd class="indicator-description">
+                  Imitating banks, postal logistics (e.g., Egypt Post / البريد
+                  المصري), telecommunication providers, or governmental
+                  ministries to fabricate legitimacy.
+                </dd>
+              </div>
+              <div class="glossary-item">
+                <dt class="indicator-name">
+                  Unsolicited Financial Windfalls or Job Offers
+                </dt>
+                <dd class="indicator-description">
+                  Promises of lottery winnings, unearned subsidies, or lucrative
+                  remote work requiring an upfront fee or registration deposit.
+                </dd>
+              </div>
+              <div class="glossary-item">
+                <dt class="indicator-name">
+                  Dialectal Manipulation &amp; Familiarity Cues
+                </dt>
+                <dd class="indicator-description">
+                  Using casual Egyptian Arabic colloquialisms (e.g., "يا باشا",
+                  "مبروك كسبت معانا") to disarm suspicion and establish false
+                  intimacy.
+                </dd>
+              </div>
+            </dl>
+          </section>
+
+          <!-- Warnings and Limitations Section -->
+          <section
+            class="limitations-section"
+            aria-labelledby="limitations-heading"
+          >
+            <h3 id="limitations-heading" class="subsection-title">
+              Warnings and Prototype Limitations
+            </h3>
+            <ul class="limitations-list">
+              <li>
+                <strong>Assistive Heuristic Only:</strong> Detection signals are
+                based on syntactic patterns and linguistic markers. They do not
+                constitute forensic proof of cybercrime.
+              </li>
+              <li>
+                <strong>Potential False Positives &amp; Negatives:</strong>
+                Legitimate customer notifications may occasionally exhibit
+                urgent language, while sophisticated spear-phishing messages may
+                mimic formal communication flawlessly.
+              </li>
+              <li>
+                <strong>Active Research In Progress:</strong> This interface is
+                a front-end research prototype. Actual automated detection
+                models are not yet connected or validated.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Research Link to ConsistencyGuard -->
+          <aside class="consistency-bridge-card">
+            <h3 class="bridge-title">Test Variant Phrasings</h3>
+            <p class="bridge-description">
+              Curious if changing a few colloquial words or spelling variants
+              alters the detection result? Use our ConsistencyGuard module to
+              compare original and rewritten versions side by side.
+            </p>
+            <a href="consistency-guard.html" class="btn btn-secondary"
+              >Transfer Message to ConsistencyGuard &rarr;</a
+            >
+          </aside>
+        </section>
+      </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <p class="footer-logo">MasrShield</p>
+          <p class="footer-tagline">
+            An Arabic scam, phishing, and dialectal consistency detection
+            research platform.
+          </p>
+        </div>
+
+        <nav class="footer-navigation" aria-label="Footer Navigation">
+          <h3 class="footer-heading">Platform Navigation</h3>
+          <ul class="footer-nav-list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li>
+              <a href="message-scanner.html" class="footer-link"
+                >Message Scanner</a
+              >
+            </li>
+            <li>
+              <a href="url-analyzer.html" class="footer-link">URL Analyzer</a>
+            </li>
+            <li>
+              <a href="screenshot-scanner.html" class="footer-link"
+                >Screenshot Scanner</a
+              >
+            </li>
+            <li>
+              <a href="qr-scanner.html" class="footer-link">QR Scanner</a>
+            </li>
+            <li>
+              <a href="consistency-guard.html" class="footer-link"
+                >ConsistencyGuard</a
+              >
+            </li>
+            <li>
+              <a href="research-dashboard.html" class="footer-link"
+                >Research Dashboard</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <div class="footer-meta">
+          <p class="disclaimer-text">
+            MasrShield Research Prototype. No automated model is currently
+            connected. Input data is not transmitted or permanently stored.
+          </p>
+          <p class="copyright-text">&copy; MasrShield Research Project.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- Scripts -->
+    <script src="js/clipboard.js" defer></script>
+    <script src="js/riskEngine.js" defer></script>
+    <script src="js/messageScanner.js" defer></script>
+    <script src="js/app.js" defer></script>
+  </body>
+</html>

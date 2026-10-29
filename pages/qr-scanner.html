@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Scanner — MasrShield Research Platform</title>
+  <meta name="description" content="Safely upload, decode, and analyze QR codes to expose embedded phishing URLs, malicious payloads, and quishing attacks without auto-navigating.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header and Primary Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="site-logo">MasrShield</a>
+      <nav class="main-navigation" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="message-scanner.html" class="nav-link">Message Scanner</a></li>
+          <li class="nav-item"><a href="url-analyzer.html" class="nav-link">URL Analyzer</a></li>
+          <li class="nav-item"><a href="screenshot-scanner.html" class="nav-link">Screenshot Scanner</a></li>
+          <li class="nav-item"><a href="qr-scanner.html" class="nav-link active" aria-current="page">QR Scanner</a></li>
+          <li class="nav-item"><a href="consistency-guard.html" class="nav-link">ConsistencyGuard</a></li>
+          <li class="nav-item"><a href="research-dashboard.html" class="nav-link">Research Dashboard</a></li>
+        </ul>
+      </nav></div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main class="site-main" id="main-content">
+    <div class="page-container">
+      <!-- Page Header & Explanation -->
+      <header class="page-header">
+        <h1 class="page-title">QR Code Safety &amp; Quishing Scanner</h1>
+        <p class="page-intro">
+          QR codes are increasingly abused in phishing schemes ("quishing") because their encoded data is opaque to human eyes. This tool provides an isolated inspection sandbox to upload QR code images, decode raw data strings, and evaluate links for threats before any browser navigation takes place.
+        </p>
+      </header>
+
+      <!-- Implementation Status Notice -->
+      <aside class="prototype-notice" role="note" aria-label="QR Module Status">
+        <p class="notice-text">
+          <strong>Notice:</strong> QR decoding uses jsQR in the browser when available. If the library cannot be loaded, decoding is currently unavailable. Decoded URLs are never opened automatically.
+        </p>
+      </aside>
+
+      <!-- QR Code Upload Section -->
+      <section class="qr-upload-section" aria-labelledby="qr-upload-heading">
+        <h2 id="qr-upload-heading" class="section-title">Upload QR Code</h2>
+
+        <form id="qr-scanner-form" class="scanner-form">
+          <div class="form-group">
+            <label for="qr-file-input" class="form-label">Select QR Code Image</label>
+            <input 
+              type="file" 
+              id="qr-file-input" 
+              name="qrFile" 
+              class="form-file-input" 
+              accept="image/png, image/jpeg, image/webp"
+              aria-describedby="qr-file-help">
+            <p id="qr-file-help" class="form-help-text">
+              Upload a clear photo or screenshot containing a QR code. Supported formats: <strong>PNG (.png)</strong>, <strong>JPEG (.jpg, .jpeg)</strong>, <strong>WebP (.webp)</strong>.
+            </p>
+          </div>
+
+          <!-- QR Preview Box -->
+          <div class="preview-container" aria-labelledby="qr-preview-heading">
+            <h3 id="qr-preview-heading" class="subsection-title">QR Code Image Preview</h3>
+            <div class="image-preview-box" id="qr-preview-box">
+              <p class="empty-state-text">No QR image selected. Upload an image to view a preview here.</p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="decode-qr-btn" class="btn btn-primary">Decode QR Code</button>
+            <button type="reset" id="clear-qr-btn" class="btn btn-secondary">Clear Image</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Extracted Content Section -->
+      <section class="qr-content-section" aria-labelledby="content-heading">
+        <header class="section-subhead">
+          <h2 id="content-heading" class="section-title">Decoded Payload Content</h2>
+          <div class="payload-actions">
+            <button type="button" id="copy-qr-content-btn" class="btn btn-outline" disabled>Copy Extracted Content</button>
+          </div>
+        </header>
+
+        <div class="form-group">
+          <label for="decoded-content-area" class="form-label">Raw Decoded Payload</label>
+          <textarea 
+            id="decoded-content-area" 
+            name="decodedContent" 
+            class="form-textarea" 
+            rows="5" 
+            cols="60" 
+            placeholder="Decoded text, URL, vCard, or payment address will appear here once decoding is executed via JavaScript..."
+            aria-describedby="payload-note"></textarea>
+          <p id="payload-note" class="form-help-text">
+            Payload format will be classified automatically (e.g., Web URL, Plain Text, Contact Card, Wi-Fi Config, or Deep Link).
+          </p>
+        </div>
+      </section>
+
+      <!-- URL Analysis Sub-Section (If payload is a URL) -->
+      <section class="qr-url-analysis-section" aria-labelledby="qr-url-heading">
+        <h2 id="qr-url-heading" class="section-title">Embedded URL Risk Evaluation</h2>
+        <p class="section-note">
+          If the decoded payload is an internet link, it will be mapped into structural analysis components below. Links are never visited automatically.
+        </p>
+
+        <div class="url-payload-card">
+          <p class="payload-field">
+            <strong>Detected Protocol:</strong> 
+            <span id="qr-url-protocol" class="placeholder-val">— (Awaiting decode)</span>
+          </p>
+          <p class="payload-field">
+            <strong>Target Host / Domain:</strong> 
+            <span id="qr-url-domain" class="placeholder-val">— (Awaiting decode)</span>
+          </p>
+          <p class="payload-field">
+            <strong>Apparent Path:</strong> 
+            <span id="qr-url-path" class="placeholder-val">— (Awaiting decode)</span>
+          </p>
+          <p class="payload-field">
+            <strong>Redirection Risk:</strong> 
+            <span id="qr-url-redirect-risk" class="placeholder-val">— (Awaiting decode)</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- QR Analysis Report Section (Initially Empty State) -->
+      <section class="results-section" id="qr-analysis-report" aria-labelledby="report-heading" aria-live="polite">
+        <header class="results-header">
+          <h2 id="report-heading" class="section-title">Quishing Risk Assessment</h2>
+          <div class="report-actions">
+            <button type="button" id="copy-qr-report-btn" class="btn btn-outline" disabled>Copy Analysis Report</button>
+          </div>
+        </header>
+
+        <!-- Initial Empty State Placeholder -->
+        <div class="empty-state-card" id="qr-empty-state">
+          <p class="empty-state-title">Awaiting QR Code Processing</p>
+          <p class="empty-state-description">
+            No QR code has been decoded or analyzed yet. Upload an image above and select "Decode QR Code" to evaluate payload safety.
+          </p>
+        </div>
+
+        <!-- Metric Placeholders -->
+        <div class="evaluation-summary-grid">
+          <article class="metric-card">
+            <h3 class="metric-label">Payload Type</h3>
+            <p class="metric-value" id="qr-payload-type">Unknown</p>
+            <p class="metric-status">Status: Unprocessed</p>
+          </article>
+
+          <article class="metric-card">
+            <h3 class="metric-label">Assessed Risk Level</h3>
+            <p class="metric-value classification-badge" id="qr-risk-level">Pending</p>
+            <p class="metric-note">Options: Low &bull; Medium &bull; High &bull; Uncertain</p>
+          </article>
+        </div>
+
+        <!-- Security Warning Regarding Decoded Links -->
+        <aside class="warning-alert-box" role="alert">
+          <h3 class="alert-title">Security Best Practice: Inspect Before Accessing</h3>
+          <p class="alert-text">
+            <strong>Never Scan and Blindly Proceed:</strong> Attackers often affix malicious QR stickers over legitimate restaurant menus, parking meters, or bank flyers. Decoded URLs must be verified against official domain registries before being entered in a browser. This application deliberately prevents automatic link opening.
+          </p>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <p class="footer-logo">MasrShield</p>
+        <p class="footer-tagline">
+          An Arabic scam, phishing, and dialectal consistency detection research platform.
+        </p>
+      </div>
+
+      <nav class="footer-navigation" aria-label="Footer Navigation">
+        <h3 class="footer-heading">Platform Navigation</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="message-scanner.html" class="footer-link">Message Scanner</a></li>
+          <li><a href="url-analyzer.html" class="footer-link">URL Analyzer</a></li>
+          <li><a href="screenshot-scanner.html" class="footer-link">Screenshot Scanner</a></li>
+          <li><a href="qr-scanner.html" class="footer-link">QR Scanner</a></li>
+          <li><a href="consistency-guard.html" class="footer-link">ConsistencyGuard</a></li>
+          <li><a href="research-dashboard.html" class="footer-link">Research Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-meta">
+        <p class="disclaimer-text">
+          MasrShield Research Prototype. QR decoding library not yet bundled. Safe parsing with zero automatic navigation.
+        </p>
+        <p class="copyright-text">
+          &copy; MasrShield Research Project.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- QR Decoding & Multi-Vector Inspection Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" defer></script>
+  <script src="js/riskEngine.js" defer></script>
+  <script src="js/urlAnalyzer.js" defer></script>
+  <script src="js/clipboard.js" defer></script>
+  <script src="js/qrScanner.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
+

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Analyzer — MasrShield Research Platform</title>
+  <meta name="description" content="Inspect suspicious links and phishing URLs by deconstructing their anatomy, identifying deceptive subdomains, and reviewing risk indicators safely.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Header and Primary Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="site-logo">MasrShield</a>
+      <nav class="main-navigation" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="message-scanner.html" class="nav-link">Message Scanner</a></li>
+          <li class="nav-item"><a href="url-analyzer.html" class="nav-link active" aria-current="page">URL Analyzer</a></li>
+          <li class="nav-item"><a href="screenshot-scanner.html" class="nav-link">Screenshot Scanner</a></li>
+          <li class="nav-item"><a href="qr-scanner.html" class="nav-link">QR Scanner</a></li>
+          <li class="nav-item"><a href="consistency-guard.html" class="nav-link">ConsistencyGuard</a></li>
+          <li class="nav-item"><a href="research-dashboard.html" class="nav-link">Research Dashboard</a></li>
+        </ul>
+      </nav></div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main class="site-main" id="main-content">
+    <div class="page-container">
+      <!-- Page Header & Explanation -->
+      <header class="page-header">
+        <h1 class="page-title">Suspicious URL Analyzer</h1>
+        <p class="page-intro">
+          Deconstruct web addresses into their fundamental architectural components to expose phishing patterns, deceptive subdomains, brand impersonation keywords, and disguised redirection. For safety, submitted links are never navigated to or fetched automatically.
+        </p>
+      </header>
+
+      <!-- URL Input Section -->
+      <section class="url-input-section" aria-labelledby="url-input-heading">
+        <h2 id="url-input-heading" class="section-title">Link Submission</h2>
+
+        <form id="url-analyzer-form" class="scanner-form">
+          <div class="form-group">
+            <label for="url-input" class="form-label">Target URL to Inspect</label>
+            <input 
+              type="url" 
+              id="url-input" 
+              name="targetUrl" 
+              class="form-input" 
+              placeholder="https://secure-bank-egypt-verification.com/login" 
+              required
+              aria-describedby="url-safety-note">
+            <p id="url-safety-note" class="form-help-text">
+              Enter the full link including the protocol (e.g., <code>https://</code> or <code>http://</code>). The analyzer inspects link syntax locally without visiting the remote destination.
+            </p>
+          </div>
+
+          <div id="url-error-message" class="form-error-message" style="display:none;" role="alert"></div>
+          <div class="form-actions">
+            <button type="button" id="analyze-url-btn" class="btn btn-primary">Analyze URL</button>
+            <button type="reset" id="clear-url-btn" class="btn btn-secondary">Clear Input</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Results Section (Initially Empty State) -->
+      <section class="results-section" id="url-results" aria-labelledby="results-heading" aria-live="polite">
+        <header class="results-header">
+          <h2 id="results-heading" class="section-title">URL Inspection Results</h2>
+          <div class="report-actions">
+            <button type="button" id="copy-url-btn" class="btn btn-outline" disabled>Copy URL</button>
+            <button type="button" id="copy-url-report-btn" class="btn btn-outline" disabled>Copy Analysis Report</button>
+          </div>
+        </header>
+
+        <!-- Initial Empty State Placeholder -->
+        <div class="empty-state-card" id="url-empty-state">
+          <p class="empty-state-title">Awaiting URL Submission</p>
+          <p class="empty-state-description">
+            No link has been submitted for structural breakdown. Enter a web address in the field above and select "Analyze URL" to evaluate its syntax.
+          </p>
+        </div>
+
+        <!-- URL Structure Breakdown Section -->
+        <section class="url-structure-section" aria-labelledby="structure-heading">
+          <h3 id="structure-heading" class="subsection-title">URL Architectural Breakdown</h3>
+          <p class="section-note">Phishing links frequently use misleading subdomains to mimic legitimate brand names.</p>
+          
+          <table class="data-table" id="url-components-table">
+            <caption class="sr-only">URL component decomposition</caption>
+            <thead>
+              <tr>
+                <th scope="col">Component</th>
+                <th scope="col">Parsed Value</th>
+                <th scope="col">Risk Significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Scheme / Protocol</th>
+                <td class="placeholder-cell" id="parsed-protocol">— (Awaiting input)</td>
+                <td>Indicates encryption (HTTPS vs unencrypted HTTP). Scammers can also obtain free SSL certificates.</td>
+              </tr>
+              <tr>
+                <th scope="row">Subdomain</th>
+                <td class="placeholder-cell" id="parsed-subdomain">— (Awaiting input)</td>
+                <td>Attackers often place legitimate brand names in subdomains (e.g., <code>bank.com.scam-site.org</code>).</td>
+              </tr>
+              <tr>
+                <th scope="row">Registered Domain</th>
+                <td class="placeholder-cell" id="parsed-domain">— (Awaiting input)</td>
+                <td>The actual paid domain identity that controls the website and DNS records.</td>
+              </tr>
+              <tr>
+                <th scope="row">Top-Level Domain (TLD)</th>
+                <td class="placeholder-cell" id="parsed-tld">— (Awaiting input)</td>
+                <td>Certain generic TLDs (.xyz, .top, .cam, .click) are statistically overrepresented in disposable phishing campaigns.</td>
+              </tr>
+              <tr>
+                <th scope="row">Port Number</th>
+                <td class="placeholder-cell" id="parsed-port">— (Standard 80 / 443)</td>
+                <td>Non-standard port numbers (e.g., :8080, :4443) may indicate rogue server configurations or compromised hosts.</td>
+              </tr>
+              <tr>
+                <th scope="row">Path &amp; Directory</th>
+                <td class="placeholder-cell" id="parsed-path">— (Awaiting input)</td>
+                <td>Simulated paths like <code>/auth/login.php</code> designed to mimic legitimate portal endpoints.</td>
+              </tr>
+              <tr>
+                <th scope="row">Query Parameters</th>
+                <td class="placeholder-cell" id="parsed-params">— (Awaiting input)</td>
+                <td>Tracking tokens or redirect instructions (e.g., <code>?redirect=http://malicious.com</code>).</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Potential Risk Indicators Section -->
+        <section class="url-indicators-section" aria-labelledby="indicators-heading">
+          <h3 id="indicators-heading" class="subsection-title">Potential Risk Indicators</h3>
+          <div class="indicators-container" id="url-indicators-container">
+            <p class="empty-state-text">No heuristic indicators evaluated yet. Submit a URL above.</p>
+            <ul class="indicators-list" id="url-indicators-list">
+              <!-- Dynamically populated via future JavaScript implementation -->
+            </ul>
+          </div>
+        </section>
+
+        <!-- Final Assessment Placeholder -->
+        <section class="url-assessment-section" aria-labelledby="assessment-heading">
+          <h3 id="assessment-heading" class="subsection-title">Final Assessment</h3>
+          <div class="assessment-card">
+            <p class="assessment-metric">
+              <strong>Risk Verdict:</strong> 
+              <span id="url-risk-verdict" class="verdict-placeholder">Pending Evaluation</span>
+            </p>
+            <p class="assessment-metric">
+              <strong>Confidence Level:</strong> 
+              <span id="url-confidence-level" class="verdict-placeholder">Not Calculated</span>
+            </p>
+            <p class="assessment-summary" id="url-assessment-summary">
+              Structural indicators have not been parsed. When a URL is submitted, heuristic checks will flag known anomalies such as IP hostnames, homoglyph substitutions, excessive hyphenation, and brand spoofing.
+            </p>
+          </div>
+        </section>
+
+        <!-- Safety Warning Section -->
+        <aside class="warning-alert-box" role="alert">
+          <h3 class="alert-title">Critical Security Warning</h3>
+          <p class="alert-text">
+            <strong>Reputation Not Guaranteed:</strong> This prototype parses structural URL syntax only. It does not query real-time threat intelligence feeds, domain blocklists, or live DNS records. A syntactically clean URL may still host malware, and an unusual URL might belong to a benign service. Never visit suspicious links directly.
+          </p>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <p class="footer-logo">MasrShield</p>
+        <p class="footer-tagline">
+          An Arabic scam, phishing, and dialectal consistency detection research platform.
+        </p>
+      </div>
+
+      <nav class="footer-navigation" aria-label="Footer Navigation">
+        <h3 class="footer-heading">Platform Navigation</h3>
+        <ul class="footer-nav-list">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="message-scanner.html" class="footer-link">Message Scanner</a></li>
+          <li><a href="url-analyzer.html" class="footer-link">URL Analyzer</a></li>
+          <li><a href="screenshot-scanner.html" class="footer-link">Screenshot Scanner</a></li>
+          <li><a href="qr-scanner.html" class="footer-link">QR Scanner</a></li>
+          <li><a href="consistency-guard.html" class="footer-link">ConsistencyGuard</a></li>
+          <li><a href="research-dashboard.html" class="footer-link">Research Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-meta">
+        <p class="disclaimer-text">
+          MasrShield Research Prototype. Local structural analysis only. Never navigate to untrusted domains.
+        </p>
+        <p class="copyright-text">
+          &copy; MasrShield Research Project.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- Scripts -->
+  <script src="js/clipboard.js" defer></script>
+<script src="js/riskEngine.js" defer></script>
+  <script src="js/urlAnalyzer.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
+

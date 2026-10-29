@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      MasrShield — Arabic Scam &amp; Phishing Detection Research Platform
+    </title>
+    <meta
+      name="description"
+      content="MasrShield is a front-end research platform evaluating Arabic scam, phishing, and dialectal fraud detection consistency."
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <!-- Header and Primary Navigation -->
+    <header class="site-header">
+      <div class="header-container">
+        <a href="index.html" class="site-logo">MasrShield</a>
+        <nav class="main-navigation" aria-label="Main Navigation">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link active" aria-current="page"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="message-scanner.html" class="nav-link"
+                >Message Scanner</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="url-analyzer.html" class="nav-link"
+                >URL Analyzer</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="screenshot-scanner.html" class="nav-link"
+                >Screenshot Scanner</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="qr-scanner.html" class="nav-link">QR Scanner</a>
+            </li>
+            <li class="nav-item">
+              <a href="consistency-guard.html" class="nav-link"
+                >ConsistencyGuard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="research-dashboard.html" class="nav-link"
+                >Research Dashboard</a
+              >
+            </li>
+          </ul>
+        </nav></div>
+    </header>
+
+    <!-- Main Content Landmark -->
+    <main class="site-main" id="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section" id="hero" aria-labelledby="hero-heading">
+        <div class="hero-content">
+          <h1 id="hero-heading" class="hero-title">
+            Detect Scams. Understand the Risk.
+          </h1>
+          <p class="hero-description">
+            MasrShield is a dedicated research platform designed to investigate
+            scam detection, phishing URL analysis, and social engineering in
+            Arabic digital communications. Explore our diagnostic tools and
+            examine how dialectal variations, orthographic shifts, and rewrites
+            affect automated threat identification.
+          </p>
+          <div class="hero-actions">
+            <a href="message-scanner.html" class="btn btn-primary"
+              >Start Message Scanner</a
+            >
+            <a href="consistency-guard.html" class="btn btn-secondary"
+              >Explore ConsistencyGuard</a
+            >
+          </div>
+          <aside
+            class="prototype-notice"
+            role="note"
+            aria-label="Research Prototype Notice"
+          >
+            <p class="notice-text">
+              <strong>Research Prototype Notice:</strong> MasrShield is an
+              experimental research prototype created for linguistic and
+              security evaluation. Detection heuristics are unvalidated, and no
+              assessment should be interpreted as authoritative proof of safety
+              or fraud.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Features Overview Section -->
+      <section
+        class="features-section"
+        id="features"
+        aria-labelledby="features-heading"
+      >
+        <header class="section-header">
+          <h2 id="features-heading" class="section-title">Platform Features</h2>
+          <p class="section-subtitle">
+            Six integrated modules built to analyze text, web addresses, visual
+            media, and model consistency.
+          </p>
+        </header>
+
+        <div class="features-grid">
+          <!-- Feature 1: Message Scanner -->
+          <article class="feature-card" id="feature-message-scanner">
+            <h3 class="feature-title">Message Scanner</h3>
+            <p class="feature-description">
+              Inspect suspicious Arabic SMS, chat messages, and social media
+              text for psychological pressure cues, urgent financial demands,
+              and spoofed identities.
+            </p>
+            <a href="message-scanner.html" class="feature-link"
+              >Open Message Scanner</a
+            >
+          </article>
+
+          <!-- Feature 2: URL Analyzer -->
+          <article class="feature-card" id="feature-url-analyzer">
+            <h3 class="feature-title">URL Analyzer</h3>
+            <p class="feature-description">
+              Deconstruct web addresses to identify deceptive subdomains,
+              suspicious top-level domains (TLDs), IP hosting patterns, and
+              brand typosquatting.
+            </p>
+            <a href="url-analyzer.html" class="feature-link"
+              >Open URL Analyzer</a
+            >
+          </article>
+
+          <!-- Feature 3: Screenshot Scanner -->
+          <article class="feature-card" id="feature-screenshot-scanner">
+            <h3 class="feature-title">Screenshot Scanner</h3>
+            <p class="feature-description">
+              Upload images of text messages or social media interactions to
+              extract text through an upcoming OCR pipeline and inspect
+              suspicious wording.
+            </p>
+            <a href="screenshot-scanner.html" class="feature-link"
+              >Open Screenshot Scanner</a
+            >
+          </article>
+
+          <!-- Feature 4: QR Scanner -->
+          <article class="feature-card" id="feature-qr-scanner">
+            <h3 class="feature-title">QR Scanner</h3>
+            <p class="feature-description">
+              Safely unpack QR code images (quishing) to examine the embedded
+              payload and analyze destination URLs before interacting with
+              unknown services.
+            </p>
+            <a href="qr-scanner.html" class="feature-link"
+              >Open QR Scanner</a
+            >
+          </article>
+
+          <!-- Feature 5: ConsistencyGuard -->
+          <article class="feature-card" id="feature-consistency-guard">
+            <h3 class="feature-title">ConsistencyGuard</h3>
+            <p class="feature-description">
+              Evaluate whether scam classifiers maintain consistent verdicts
+              when Arabic messages are rewritten using regional dialects,
+              spelling shifts, or paraphrases.
+            </p>
+            <a href="consistency-guard.html" class="feature-link"
+              >Open ConsistencyGuard</a
+            >
+          </article>
+
+          <!-- Feature 6: Research Dashboard -->
+          <article class="feature-card" id="feature-research-dashboard">
+            <h3 class="feature-title">Research Dashboard</h3>
+            <p class="feature-description">
+              Review empirical evaluation metrics, dataset partition splits,
+              baseline comparisons, and systematic testing limitations in one
+              transparent view.
+            </p>
+            <a href="research-dashboard.html" class="feature-link"
+              >Open Research Dashboard</a
+            >
+          </article>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section
+        class="how-it-works-section"
+        id="how-it-works"
+        aria-labelledby="how-it-works-heading"
+      >
+        <header class="section-header">
+          <h2 id="how-it-works-heading" class="section-title">How It Works</h2>
+          <p class="section-subtitle">
+            A transparent four-step workflow for evaluating suspicious digital
+            content.
+          </p>
+        </header>
+
+        <ol class="workflow-steps">
+          <li class="workflow-step">
+            <h3 class="step-title">1. Submit Suspicious Content</h3>
+            <p class="step-description">
+              Input anonymized message text, enter a suspicious web link, or
+              upload an image containing text or a QR code into the appropriate
+              module.
+            </p>
+          </li>
+          <li class="workflow-step">
+            <h3 class="step-title">2. Examine Potential Risk Indicators</h3>
+            <p class="step-description">
+              Inspect heuristic signals such as artificial urgency, prize
+              notifications, authority impersonation, unfamiliar domain formats,
+              or concealed redirection.
+            </p>
+          </li>
+          <li class="workflow-step">
+            <h3 class="step-title">3. Review an Explainable Report</h3>
+            <p class="step-description">
+              Receive a transparent report that outlines why specific linguistic
+              tokens or structural elements raised concern, along with explicit
+              limitations.
+            </p>
+          </li>
+          <li class="workflow-step">
+            <h3 class="step-title">4. Test Detection Consistency</h3>
+            <p class="step-description">
+              Use ConsistencyGuard to compare the original message against
+              dialectal or paraphrased variants to evaluate whether detection
+              decisions remain invariant.
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Research Focus Section -->
+      <section
+        class="research-focus-section"
+        id="research-focus"
+        aria-labelledby="research-focus-heading"
+      >
+        <div class="research-focus-container">
+          <h2 id="research-focus-heading" class="section-title">
+            Research Focus: Dialectal Arabic &amp; Detection Robustness
+          </h2>
+          <p class="research-text">
+            Automated scam detection systems frequently suffer from significant
+            performance degradation when processing informal Arabic. Attackers
+            frequently bypass conventional keyword filters by shifting from
+            Modern Standard Arabic (MSA) to colloquial regional dialects (such
+            as Egyptian Arabic / العامية المصرية), adopting non-standard
+            orthography (such as interchangeable alif and hamza characters, taa
+            marbuta substitutions, or phonetic spelling), and paraphrasing
+            coercive statements.
+          </p>
+          <p class="research-text">
+            MasrShield investigates the resilience of security classifiers
+            against these meaning-preserving variations. Our goal is to promote
+            explainability, measure classification variance across dialects, and
+            contribute to more dependable digital safeguards for Arabic-speaking
+            communities.
+          </p>
+          <div class="research-links">
+            <a href="consistency-guard.html" class="btn btn-outline"
+              >Explore ConsistencyGuard Sandbox</a
+            >
+            <a href="research-dashboard.html" class="btn btn-outline"
+              >View Research Dashboard Metrics</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Responsible Use Notice Section -->
+      <section
+        class="responsible-use-section"
+        id="responsible-use"
+        aria-labelledby="responsible-use-heading"
+      >
+        <div class="responsible-use-container">
+          <h2 id="responsible-use-heading" class="section-title">
+            Responsible Use Notice
+          </h2>
+          <div class="notice-points">
+            <article class="notice-point">
+              <h3 class="notice-point-title">
+                Assessments Are Not Legal Proof
+              </h3>
+              <p class="notice-point-text">
+                Risk scores and indicator summaries produced by this platform
+                are assistive research signals, not legally binding proof of
+                criminal fraud or conclusive guarantees of safety. Always verify
+                sensitive interactions directly with official institutions.
+              </p>
+            </article>
+            <article class="notice-point">
+              <h3 class="notice-point-title">
+                Protect Confidential Information
+              </h3>
+              <p class="notice-point-text">
+                Do not enter real passwords, one-time passcodes (OTPs), bank
+                credentials, national identification numbers, or personal
+                identifying information into any input field. Use anonymized or
+                synthetic text examples when testing.
+              </p>
+            </article>
+            <article class="notice-point">
+              <h3 class="notice-point-title">
+                Experimental Validation Required
+              </h3>
+              <p class="notice-point-text">
+                This platform represents an academic and technical research
+                prototype. Detection accuracy, precision, and false-positive
+                rates must be formally evaluated against standardized benchmark
+                datasets before making any operational claims.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <p class="footer-logo">MasrShield</p>
+          <p class="footer-tagline">
+            An Arabic scam, phishing, and dialectal consistency detection
+            research platform.
+          </p>
+        </div>
+
+        <nav class="footer-navigation" aria-label="Footer Navigation">
+          <h3 class="footer-heading">Platform Navigation</h3>
+          <ul class="footer-nav-list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li>
+              <a href="message-scanner.html" class="footer-link"
+                >Message Scanner</a
+              >
+            </li>
+            <li>
+              <a href="url-analyzer.html" class="footer-link"
+                >URL Analyzer</a
+              >
+            </li>
+            <li>
+              <a href="screenshot-scanner.html" class="footer-link"
+                >Screenshot Scanner</a
+              >
+            </li>
+            <li>
+              <a href="qr-scanner.html" class="footer-link">QR Scanner</a>
+            </li>
+            <li>
+              <a href="consistency-guard.html" class="footer-link"
+                >ConsistencyGuard</a
+              >
+            </li>
+            <li>
+              <a href="research-dashboard.html" class="footer-link"
+                >Research Dashboard</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <div class="footer-meta">
+          <h3 class="footer-heading">Research Prototype Disclaimer</h3>
+          <p class="disclaimer-text">
+            MasrShield is developed for academic exploration and interface
+            prototyping. No production security decisions should rely on
+            automated outputs at this stage. All submitted data remains on the
+            client device during prototype testing.
+          </p>
+          <p class="copyright-text">
+            &copy; MasrShield Research Project. Designed for transparent and
+            accessible security research.
+          </p>
+        </div>
+      </div>
+    </footer>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
